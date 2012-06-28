@@ -47,7 +47,7 @@ end
 
 #Main
 #
-first_tag_name_list = ["衝撃のラスト", "東方", "踊ってみた", "ゲーム"]
+first_tag_name_list = ["衝撃のラスト", "東方", "踊ってみた", "ゲーム","政治"]
 num_of_page = 3
 
 niconico = NicoNico.new
