@@ -20,43 +20,51 @@ class NicoNico
 		@agent.click('ログイン')
 	end
 
-	def entryTag(video_number)
-		page = @agent.get("http://www.nicovideo.jp/watch/" + video_number)
-		links = page.links.find_all{|link| link.attributes["rel"] == "tag"}
-		links.map!{|link| ["http://www.nicovideo.jp/watch/" + URI.unescape(link.href),link.text]}
+	def getVideo(searchWord)
+		videos = Array.new
+		searchPage = @agent.get("http://www.nicovideo.jp/tag/" + searchWord)
+		searchPage.links.find_all{|e| e.node['class'] == 'watch'}.each do |watch|
+			videos << watch.href.slice(6, 17)
+		end
+		return videos
 	end
 
-	def searchTag(search_name)
-		page = @agent.get("http://www.nicovideo.jp/tag/" + search_name)
-		page.links.find_all{|e| e.node['class'] == 'watch'}.each do |watch|
-			video_tag = Array.new
-			video_page = @agent.get(watch.href)
-			#puts video_page.title
-			video_page.links.find_all{|ee| ee.node['rel'] == 'tag'}.each do |tag|
-				video_tag << tag
-			end
-			#puts video_tag.size
-			for i in 0..(video_tag.size-2)
-				for j in (i+1)..(video_tag.size-1)
-					puts "#{video_tag[i]} #{video_tag[j]}"
-				end
-			end
+	def getTag(videoID)
+		tags = Array.new
+		videoPage = @agent.get("http://www.nicovideo.jp/watch/" + videoID)
+		videoPage.links.find_all{|ee| ee.node['rel'] == 'tag'}.each do |tag|
+			tags << tag.text
 		end
+		outputTagNetwork(tags)
+		return tags
+	end
+
+	def outputTagNetwork(tags)
+		(tags.size-2).times{|i|
+			(i+1).upto(tags.size-1){|j|
+				puts "#{tags[i]} #{tags[j]}"
+			}
+		}
 	end
 end
 
 #Main
 #
-first_tag_name_list = ["衝撃のラスト", "東方", "踊ってみた", "ゲーム","政治"]
-num_of_page = 3
+loopNum = 10
+
+tagList = Array.new
+firstWord = "ゲーム"
+tagList << firstWord
 
 niconico = NicoNico.new
 niconico.login(Pit.get("niconico")[:id],Pit.get("niconico")[:pass])
 
-first_tag_name_list.each{|first_tag_name|
-	for i in 1..num_of_page
-		search_name = "#{first_tag_name}?page=#{i}"
-		niconico.searchTag(search_name)
-	end
+loopNum.times{|i|
+	tag = tagList[i]
+	niconico.getVideo(tag).each{|video|
+		niconico.getTag(video).each{|new_tag|
+			tagList << new_tag
+		}
+	}
+	tagList.uniq!
 }
-
