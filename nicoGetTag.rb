@@ -40,7 +40,7 @@ class NicoNico
 	end
 
 	def outputTagNetwork(tags)
-		(tags.size-2).times{|i|
+		0.upto(tags.size-2){|i|
 			(i+1).upto(tags.size-1){|j|
 				puts "#{tags[i]} #{tags[j]}"
 			}
