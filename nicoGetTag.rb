@@ -1,7 +1,6 @@
 #encoding: utf-8
 require 'mechanize'
 require 'openssl'
-#OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 require 'uri'
 require 'pit'
 
@@ -45,6 +44,11 @@ class NicoNico
 				puts "#{tags[i]} #{tags[j]}"
 			}
 		}
+	end
+
+  def getTagsearchTotal(searchWord)
+	  searchPage = @agent.get("http://www.nicovideo.jp/tag/" + searchWord)
+		return searchPage.search("strong[@class='search_total']").inner_text
 	end
 end
 
