@@ -46,8 +46,8 @@ class NicoNico
 		}
 	end
 
-  def getTagsearchTotal(searchWord)
-	  searchPage = @agent.get("http://www.nicovideo.jp/tag/" + searchWord)
+	def getTagsearchTotal(searchWord)
+		searchPage = @agent.get("http://www.nicovideo.jp/tag/" + searchWord)
 		return searchPage.search("strong[@class='search_total']").inner_text
 	end
 end
@@ -56,8 +56,7 @@ end
 #
 loopNum = 10
 
-tagList = Array.new
-firstWord = "ゲーム"
+tagList = = "ゲーム"
 tagList << firstWord
 
 niconico = NicoNico.new
