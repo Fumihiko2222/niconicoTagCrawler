@@ -1,7 +1,7 @@
 #encoding: utf-8
 require 'mechanize'
 require 'openssl'
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+#OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 require 'uri'
 require 'pit'
 
