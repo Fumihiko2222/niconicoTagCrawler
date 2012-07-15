@@ -15,7 +15,9 @@ niconico.login(Pit.get("niconico")[:id],Pit.get("niconico")[:pass])
 
 loopNum.times{|i|
 	tag = tagList[i]
-	niconico.getVideo(tag).each{|video|
+	tags = niconico.getVideo(tag)
+	niconico.outputTagNetwork(tags)
+	tags.each{|video|
 		niconico.getTag(video).each{|new_tag|
 			tagList << new_tag
 		}
