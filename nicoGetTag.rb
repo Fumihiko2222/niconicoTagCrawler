@@ -56,7 +56,8 @@ end
 #
 loopNum = 10
 
-tagList = = "ゲーム"
+firstWord = "ゲーム"
+tagList = Array.new
 tagList << firstWord
 
 niconico = NicoNico.new
