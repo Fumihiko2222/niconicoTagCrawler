@@ -5,7 +5,6 @@ require './NicoNico'
 #Main
 #
 loopNum = 10
-
 firstWord = "ゲーム"
 tagList = Array.new
 tagList << firstWord
@@ -15,10 +14,10 @@ niconico.login(Pit.get("niconico")[:id],Pit.get("niconico")[:pass])
 
 loopNum.times{|i|
 	tag = tagList[i]
-	tags = niconico.getVideo(tag)
-	niconico.outputTagNetwork(tags)
-	tags.each{|video|
-		niconico.getTag(video).each{|new_tag|
+	niconico.getVideo(tag).each{|video|
+		tags = niconico.getTag(video)
+		niconico.outputTagNetwork(tags)
+		tags.each{|new_tag|
 			tagList << new_tag
 		}
 	}
