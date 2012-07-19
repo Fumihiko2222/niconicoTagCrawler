@@ -33,7 +33,7 @@ class NicoNico
 		videoPage.links.find_all{|ee| ee.node['rel'] == 'tag'}.each do |tag|
 			tags << tag.text
 		end
-		outputTagNetwork(tags)
+		#p tags
 		return tags
 	end
 
@@ -47,6 +47,9 @@ class NicoNico
 
 	def getTagsearchTotal(searchWord)
 		searchPage = @agent.get("http://www.nicovideo.jp/tag/" + searchWord)
-		return searchPage.search("strong[@class='search_total']").inner_text
+		total_string = searchPage.search("strong[@class='search_total']").inner_text
+		total_string = total_string.slice(0, total_string.size-1)
+		total_int = total_string.sub(",", "").to_i
+		return total_int
 	end
 end
