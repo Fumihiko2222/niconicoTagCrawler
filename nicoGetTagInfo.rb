@@ -12,17 +12,18 @@ tagList << firstWord
 niconico = NicoNico.new
 niconico.login(Pit.get("niconico")[:id],Pit.get("niconico")[:pass])
 
-loopNum.times{|i|
-	tag = tagList[i]
+tmpnum = 0
+tagList.each{|tag|
 	niconico.getVideo(tag).each{|video|
 		niconico.getTag(video).each{|new_tag|
 			tagList << new_tag
 		}
 	}
 	tagList.uniq!
-}
-
-tagList.each{|tag|
-	print "#{tag}	"
-	puts niconico.getTagsearchTotal(tag)
+	tmpnum.upto(tagList.size-1){|i|
+		print "#{i}	"
+		print "#{tagList[i]}	"
+		puts niconico.getTagsearchTotal(tagList[i])
+	}
+	tmpnum = tagList.size
 }
