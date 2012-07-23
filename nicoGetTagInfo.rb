@@ -4,7 +4,6 @@ require './NicoNico'
 
 #Main
 #
-loopNum = 100
 firstWord = "VOCALOID"
 tagList = Array.new
 tagList << firstWord
@@ -21,9 +20,15 @@ tagList.each{|tag|
 	}
 	tagList.uniq!
 	tmpnum.upto(tagList.size-1){|i|
-		print "#{i}	"
-		print "#{tagList[i]}	"
-		puts niconico.getTagsearchTotal(tagList[i])
+		begin
+			print "#{i}	"
+			print "#{tagList[i]}	"
+			puts niconico.getTagsearchTotal(tagList[i])
+		rescue => exc
+			p exc
+		else
+		ensure
+		end
 	}
 	tmpnum = tagList.size
 }
