@@ -30,10 +30,10 @@ class NicoNico
 	def getTag(videoID)
 		tags = Array.new
 		videoPage = @agent.get("http://www.nicovideo.jp/watch/" + videoID)
+		D
 		videoPage.links.find_all{|ee| ee.node['rel'] == 'tag'}.each do |tag|
 			tags << tag.text
 		end
-		#p tags
 		return tags
 	end
 
@@ -51,5 +51,19 @@ class NicoNico
 		total_string = total_string.slice(0, total_string.size-1)
 		total_int = total_string.sub(",", "").to_i
 		return total_int
+	end
+
+	def getVideoDate(videoID)
+		tags = Array.new
+		dates = Array.new
+		videoPage = @agent.get("http://www.nicovideo.jp/watch/" + videoID)
+		videoPage.links.find_all{|ee| ee.node['rel'] == 'tag'}.each do |tag|
+			tags << tag.text
+		end
+		#dates_string = videoPage.search("p[@id='video_date']").inner_text
+		#dates[0] = dates_string.index('<strong style="color:#393F3F;">')
+		dates[0] = videoPage.search("p[@id='video_date']").at("strong").inner_text
+		dates[1] = videoPage.search("p[@id='video_date']").links.inner_text	
+		return tags
 	end
 end
