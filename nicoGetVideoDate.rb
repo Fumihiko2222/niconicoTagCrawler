@@ -4,31 +4,29 @@ require './NicoNico'
 
 #Main
 #
-firstWord = "VOCALOID"
+firstWord = "minecraft"
 tagList = Array.new
+videoList = Array.new
 tagList << firstWord
 
 niconico = NicoNico.new
 niconico.login(Pit.get("niconico")[:id],Pit.get("niconico")[:pass])
 
-tmpnum = 0
 tagList.each{|tag|
 	niconico.getVideo(tag).each{|video|
-		niconico.getTag(video).each{|new_tag|
-			tagList << new_tag
-		}
-	}
-	tagList.uniq!
-	tmpnum.upto(tagList.size-1){|i|
+		num = 0
 		begin
-			print "#{i}	"
-			print "#{tagList[i]}	"
-			puts niconico.getTagsearchTotal(tagList[i])
-		rescue => exc
-			p exc
+			niconico.getVideoDate(video).each{|info|
+				print "#{info}	"
+				tagList << info if num >= 3 
+				num += 1
+			}
+		rescue
+			#puts "-------------------------ERROR------------------"
 		else
 		ensure
+			puts ""
 		end
 	}
-	tmpnum = tagList.size
+	tagList.uniq!
 }
